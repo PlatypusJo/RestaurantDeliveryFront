@@ -1,0 +1,12 @@
+﻿.Dish {
+    font-size: large;
+}
+
+.DishText {
+    padding: 10px;
+}
+
+img {
+    width: 500px;
+    height: 500px;
+}
