@@ -60,15 +60,19 @@ const DishCreate = ({ user, addDish }) =>
     }
     return (
         <React.Fragment>
-            {user.isAuthenticated ? (<h3>Добавление блюда</h3>) : ("")}
-            {user.isAuthenticated ? (<form onSubmit={handleSubmit}>
-                <input type="text" name="DishName" placeholder="Название блюда:" /><br/>
-                <input type="text" name="DishGrammers" placeholder="Грамовка:" /><br />
-                <input type="number" min="0" name="DishCost" placeholder="Цена:" /><br />
-                <input type="text" name="DishImage" placeholder="Изображение:" /><br />
-                <CreateOption /><br />
-                <button type="submit">Добавить</button> <br />
-            </form>) : ("")}
+            {user.userRole == "admin" ? (
+                <>
+                    <h3>Добавление блюда</h3> 
+                    <form onSubmit={handleSubmit}>
+                    <input type="text" name="DishName" placeholder="Название блюда:" /><br/>
+                    <input type="text" name="DishGrammers" placeholder="Грамовка:" /><br />
+                    <input type="number" min="0" name="DishCost" placeholder="Цена:" /><br />
+                    <input type="text" name="DishImage" placeholder="Изображение:" /><br />
+                    <CreateOption /><br />
+                    <button type="submit">Добавить</button> <br />
+                    </form>
+                </>) : ("")
+            }
         </React.Fragment >
     )
 }

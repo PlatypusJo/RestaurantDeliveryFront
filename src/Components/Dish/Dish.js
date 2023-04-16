@@ -58,7 +58,7 @@ const DishDTO = ({ user, dishes, setDishes, removeDish }) =>
                         <strong >
                             {dishId}:
                             <img src={dishImage} alt="Нет изображения"></img> <br />
-                            Название: {dishName} {user.isAuthenticated ? (<button onClick={(e) => deleteItem({ dishId })}>Удалить блюдо</button>) : ("")} <br />
+                            Название: {dishName} {user.userRole == "admin" ? (<button onClick={(e) => deleteItem({ dishId })}>Удалить блюдо</button>) : ("")} <br />
                             Граммовка: {dishGrammers} <br />
                             Цена: {dishCost}<br />
                             Категория: {categoryName}<br />

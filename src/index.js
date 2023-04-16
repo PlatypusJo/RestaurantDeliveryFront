@@ -14,7 +14,7 @@ const App = () =>
     const addDish = (dish) => setDishes([...dishes, dish])
     const removeDish = (removeId) => setDishes(dishes.filter(({ dishId }) => dishId
         !== removeId));
-    const [user, setUser] = useState({ isAuthenticated: false, userName: "" })
+    const [user, setUser] = useState({ isAuthenticated: false, userName: "", userRole: "" })
     useEffect(() =>
     {
         const getUser = async () =>
@@ -22,17 +22,18 @@ const App = () =>
             return await fetch("api/account/isauthenticated")
                 .then((response) =>
                 {
-                    response.status === 401 && setUser({ isAuthenticated: false, userName: "" })
+                    response.status === 401 && setUser({ isAuthenticated: false, userName: "", userRole: "" })
                     return response.json()
                 })
                 .then((data) =>
                 {
                     if (
                         typeof data !== "undefined" &&
-                        typeof data.userName !== "undefined"
+                        typeof data.userName !== "undefined" &&
+                        typeof data.userRole !== "undefined"
                     )
                     {
-                        setUser({ isAuthenticated: true, userName: data.userName })
+                        setUser({ isAuthenticated: true, userName: data.userName, userRole: data.userRole })
                     }
                 },
                 (error) =>
