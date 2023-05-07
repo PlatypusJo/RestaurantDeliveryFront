@@ -1,4 +1,8 @@
-﻿.site-layout-content {
+﻿.layout{
+    background-color: #fff;
+}
+
+.site-layout-content {
     min-height: 280px;
     padding: 24px;
 }
@@ -14,4 +18,35 @@
 .ant-row-rtl #components-layout-demo-top .logo {
     float: right;
     margin: 16px 0 16px 24px;
+}
+
+.ant-menu {
+    color: #1cad8a;
+}
+
+.ant-menu-item-selected {
+    background-color: #1FAB89 !important;
+    color: white !important;
+}
+
+.ant-menu-item:hover {
+    color: white !important;
+}
+
+.menu {
+    background-color: #0f4e3f !important;
+}
+
+.user {
+    color: #1cad8a !important;
+}
+
+.header {
+    background-color: #0f4e3f !important;
+    font-weight: bold !important;
+}
+
+.ava:hover {
+    background-color: #32e7bb !important;
+    color: white !important;
 }

@@ -20,10 +20,11 @@ const LogOff = ({ setUser }) => {
         }
         return await fetch("api/account/logoff", requestOptions)
             .then((response) => {
-                response.status === 200 && setUser({ isAuthenticated: false, userName: "" })
-                response.status === 401 && navigate("/login")
+                if (response.status === 200) {
+                    setUser({ isAuthenticated: false, userName: "" });
+                }
+                window.location.assign("/");
             })
-        
     }
     return (<>
         <Button type="primary" onClick={showModal}>

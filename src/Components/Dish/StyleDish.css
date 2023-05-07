@@ -10,3 +10,27 @@ img {
     width: 30%;
     height: 30%;
 }
+
+.card {
+    width: 30%;
+    margin: 50px;
+    border-width: 5px;
+    border-color: #1FAB89;
+}
+
+.card:hover {
+    border-color: #32e7bb;
+}
+
+.icon{
+    font-size: 200% !important;
+}
+
+.icon_standart {
+    font-size: 200% !important;
+    color: #1FAB89 !important;
+}
+
+.icon_standart:hover {
+    color: #32e7bb !important;
+}

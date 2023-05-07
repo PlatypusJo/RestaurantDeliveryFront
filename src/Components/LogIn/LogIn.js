@@ -36,7 +36,7 @@ const LogIn = ({ user, setUser }) => {
                         typeof data.userRole !== "undefined"
                     ) {
                         setUser({ isAuthenticated: true, userName: data.userName, userRole: data.userRole })
-                        navigate("/")
+                        window.location.assign("/")
                     }
                     typeof data !== "undefined" &&
                         typeof data.error !== "undefined" &&
@@ -108,7 +108,7 @@ const LogIn = ({ user, setUser }) => {
                     span: 16,
                 }}
             >
-                <Button onClick={logIn} type="primary" htmlType="submit">
+                <Button className="button" onClick={logIn} type="primary" htmlType="submit">
                     Войти
                 </Button>
             </Form.Item>
