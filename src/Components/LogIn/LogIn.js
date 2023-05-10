@@ -55,7 +55,7 @@ const LogIn = ({ user, setUser }) => {
             ) : (<Form
             name="basic"
             labelCol={{
-                span: 8,
+                span: 5,
             }}
             wrapperCol={{
                 span: 16,
@@ -95,7 +95,7 @@ const LogIn = ({ user, setUser }) => {
 
             <Form.Item
                 wrapperCol={{
-                    offset: 8,
+                    offset: 5,
                     span: 16,
                 }}
             >
@@ -104,7 +104,7 @@ const LogIn = ({ user, setUser }) => {
 
             <Form.Item
                 wrapperCol={{
-                    offset: 8,
+                    offset: 5,
                     span: 16,
                 }}
             >

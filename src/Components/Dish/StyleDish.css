@@ -7,15 +7,17 @@
 }
 
 img {
-    width: 30%;
-    height: 30%;
+    width: 200px;
+    height: 200px;
+    overflow: hidden !important;
 }
 
 .card {
-    width: 30%;
-    margin: 50px;
+    width: 100%;
+    margin: 0px;
     border-width: 5px;
     border-color: #1FAB89;
+    overflow: hidden !important;
 }
 
 .card:hover {
@@ -33,4 +35,25 @@ img {
 
 .icon_standart:hover {
     color: #32e7bb !important;
+}
+
+.list {
+    width: 100%;
+    overflow: hidden !important;
+}
+
+.listItem {
+    width: 500% !important;
+    height: 500% !important;
+    margin: 0;
+    overflow: hidden !important;
+}
+
+.button {
+    background-color: #1FAB89 !important;
+    margin-bottom: 15px;
+}
+
+.button:hover {
+    background-color: #32e7bb !important;
 }

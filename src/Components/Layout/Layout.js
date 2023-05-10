@@ -7,16 +7,19 @@ import { Avatar } from 'antd';
 import { Breadcrumb, Layout as LayoutAntd, Menu, theme } from 'antd';
 const { Header, Content, Footer } = LayoutAntd;
 
-const items = [
-    {
-        label: <Link to={"/"}>Главная</Link>,
-        key: "1",
-    },
-    {
-        label: <Link to={"/dishes"}>Меню</Link>,
-        key: "2",
-    },
-];
+let dropdownList;
+let items;
+
+//const items = [
+//    {
+//        label: <Link to={"/"}>Главная</Link>,
+//        key: "1",
+//    },
+//    {
+//        label: <Link to={"/dishes"}>Меню</Link>,
+//        key: "2",
+//    },
+//];
 
 const Layout = ({ user, setUser }) => {
     const {
@@ -46,7 +49,7 @@ const Layout = ({ user, setUser }) => {
             })
     }
 
-    var dropdownList;
+    
     if (user.isAuthenticated)
     {
         dropdownList = [
@@ -78,7 +81,51 @@ const Layout = ({ user, setUser }) => {
         ];
     }
 
-    
+    if (user.userRole == "admin") {
+        items = [
+            {
+                label: <Link to={"/"}>Главная</Link>,
+                key: "1",
+            },
+            {
+                label: <Link to={"/dishes"}>Меню</Link>,
+                key: "2",
+            },
+            {
+                label: <Link to={"/ingredients"}>Ингредиенты</Link>,
+                key: "3",
+            },
+            {
+                label: <Link to={"/categories"}>Категории блюд</Link>,
+                key: "4",
+            },
+            {
+                label: <Link to={"/dishCreate"}>Добавление блюда</Link>,
+                key: "5",
+            },
+            {
+                label: <Link to={"/categoryCreate"}>Добавление категории</Link>,
+                key: "6",
+            },
+            {
+                label: <Link to={"/ingredientCreate"}>Добавление ингредиента</Link>,
+                key: "7",
+            },
+            
+        ];
+    }
+    else {
+        items = [
+            {
+                label: <Link to={"/"}>Главная</Link>,
+                key: "1",
+            },
+            {
+                label: <Link to={"/dishes"}>Меню</Link>,
+                key: "2",
+            },
+        ];
+    }
 
     return (
         <>
