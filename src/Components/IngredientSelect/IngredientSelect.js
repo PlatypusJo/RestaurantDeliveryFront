@@ -8,7 +8,7 @@ const IngredientSelect = () => {
             const requestOptions = {
                 method: 'GET'
             }
-            return await fetch("api/Category/", requestOptions)
+            return await fetch("api/Ingredient/", requestOptions)
 
                 .then(response => response.json())
                 .then((data) => {
