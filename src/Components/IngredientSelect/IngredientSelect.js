@@ -2,8 +2,14 @@ import { useEffect } from 'react'
 
 export let ingredients = [{}]
 
+/**
+ * Компонент для создания элемента выпадающего списка с выбором ингредиента 
+ * */
 const IngredientSelect = () => {
     useEffect(() => {
+        /**
+         * Функция для обращения к swagger и получения списка ингредиентов из БД
+         * */
         const getCategories = async () => {
             const requestOptions = {
                 method: 'GET'

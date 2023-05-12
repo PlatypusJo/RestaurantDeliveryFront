@@ -11,19 +11,12 @@ import {
 import { useEffect } from 'react';
 const { Option } = Select;
 
-//const CreateOption = () => {
-//    return (
-//        <React.Fragment>
-//            <select name="CategoryId">
-//                {/*<option key="-1">Категория блюда:</option>*/}
-//                {categories.map(({ categoryId, categoryName }) => (
-//                    <option key={categoryId} value={categoryId}>{categoryName}</option>
-//                ))}
-//            </select>
-//        </React.Fragment>
-//    );
-//};
-
+/**
+ * Компонент, отображающий страницу создания блюда
+ * @param {User} user авторизованный пользователь
+ * @param {DishDTO} addDish метод добавления нового блюда в список блюд
+ * @returns Страница создания блюда
+ */
 const DishCreate = ({ user, addDish }) => {
 
     const [dishName, setDishName] = useState("");
@@ -35,24 +28,10 @@ const DishCreate = ({ user, addDish }) => {
     const handleSubmit = (e) => {
         
         e.preventDefault()
-        //var { name, grammers, cost, image } = document.forms[0]
-        //const name = e.target.elements.DishName.value
-        //const grammers = e.target.elements.DishGrammers.value
-        //const  cost  = e.target.elements.DishCost.value
-        //const image = e.target.elements.DishImage.value
-        //const categoryId = e.target.elements.CategoryId.value
-        ////const category =
-        ////{
-        ////    CategoryName: categoryName
-        ////}
-        //const dishDTO =
-        //{
-        //    DishName: name,
-        //    DishGrammers: grammers,
-        //    DishCost: cost,
-        //    DishImage: image,
-        //    CategoryFk: categoryId
-        //}
+        /**
+         * Функция для обращения к swagger и создания нового блюда в БД
+         * @returns ответ в json формате или ошибка в случае неудачного выполнения запроса
+         * */
         const createDish = async () => {
             const requestOptions = {
                 method: 'POST',
@@ -73,7 +52,6 @@ const DishCreate = ({ user, addDish }) => {
                     // response.status === 201 && addBlog(data)
                     if (response.ok) {
                         addDish(data);
-                        setDishName("");
                         e.target.elements.dishName.value = ""
                     }
                     
@@ -168,14 +146,6 @@ const DishCreate = ({ user, addDish }) => {
                             <Button className="button" onClick={handleSubmit} type="primary" htmlType="submit">Добавить</Button>
                         </Form.Item>
                     </Form>
-                    {/*<form onSubmit={handleSubmit}>*/}
-                    {/*<input type="text" name="DishName" placeholder="Название блюда:" /><br/>*/}
-                    {/*<input type="text" name="DishGrammers" placeholder="Грамовка:" /><br />*/}
-                    {/*<input type="number" min="0" name="DishCost" placeholder="Цена:" /><br />*/}
-                    {/*<input type="text" name="DishImage" placeholder="Изображение:" /><br />*/}
-                    {/*<CreateOption /><br />*/}
-                    {/*<button type="submit">Добавить</button> <br />*/}
-                    {/*</form>*/}
                 </>) : ("")
             }
         </React.Fragment >

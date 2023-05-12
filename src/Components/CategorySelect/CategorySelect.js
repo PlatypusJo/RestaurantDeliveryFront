@@ -2,8 +2,14 @@ import { useEffect } from 'react'
 
 export let categories = [{}]
 
+/**
+ * Компонент для создания элемента выпадающего списка с выбором категории 
+ * */
 const CategorySelect = () => {
     useEffect(() => {
+        /**
+         * Функция для обращения к swagger и получения списка категорий из БД
+         * */
         const getCategories = async () => {
             const requestOptions = {
                 method: 'GET'

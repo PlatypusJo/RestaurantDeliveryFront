@@ -11,8 +11,8 @@ import IngredientSelect from './Components/IngredientSelect/IngredientSelect'
 import IngredientCreate from './Components/IngredientCreate/IngredientCreate'
 import Layout from "./Components/Layout/Layout"
 import LogIn from "./Components/LogIn/LogIn"
-import LogOff from "./Components/LogOff/LogOff"
 import Register from "./Components/Register/Register"
+
 
 const App = () =>
 {
@@ -36,6 +36,9 @@ const App = () =>
     const [user, setUser] = useState({ isAuthenticated: false, userName: "", userRole: "" })
     useEffect(() =>
     {
+        /**
+         * Функция для обращения к swagger для получения информации о пользователе
+         * */
         const getUser = async () =>
         {
             return await fetch("api/account/isauthenticated")
@@ -74,10 +77,6 @@ const App = () =>
                             <div>
                                 <IngredientSelect />
                                 <CategorySelect />
-                                {/*<DishCreate*/}
-                                {/*    user={user}*/}
-                                {/*    addDish={addDish}*/}
-                                {/*/>*/}
                                 <DishDTO
                                     user={user}
                                     dishes={dishes}
@@ -92,7 +91,6 @@ const App = () =>
                         path="/login"
                         element={<LogIn user={user} setUser={setUser} />}
                     />
-                    <Route path="/logoff" element={<LogOff setUser={setUser} />} />
                     <Route
                         path="/register"
                         element={<Register user={user} setUser={setUser} />}
@@ -162,33 +160,3 @@ root.render(
     // </React.StrictMode>
 )
 
-//import React, { useState } from 'react'
-//import ReactDOM from "react-dom/client"
-//import DishDTO from './Components/Dish/Dish'
-//import DishCreate from './Components/DishCreate/DishCreate'
-//import Category from './Components/Category/Category'
-//const App = () => {
-//    const [dishes, setDishes] = useState([])
-//    const addDish = (dish) => setDishes([...dishes, dish])
-//    const removeDish = (removeId) => setDishes(dishes.filter(({ dishId }) => dishId
-//        !== removeId));
-//    return (
-//        <div>
-//            <Category />
-//            <DishCreate
-//                addDish={addDish}
-//            />
-//            <DishDTO
-//                dishes={dishes}
-//                setDishes={setDishes}
-//                removeDish={removeDish}
-//            />
-//        </div>
-//    )
-//}
-//const root = ReactDOM.createRoot(document.getElementById("root"))
-//root.render(
-//    // <React.StrictMode>
-//    <App />
-//    // </React.StrictMode>
-//)

@@ -3,9 +3,18 @@ import { useNavigate } from "react-router-dom"
 import { Button, Form, Input } from 'antd';
 import "./StyleRegister.css"
 
+/**
+ * Компонент, отображающий страницу регистрации
+ * @param {User} user пользователь
+ * @param {User} setUser метод изменения пользователя
+ */
 const Register = ({ user, setUser }) => {
     const [errorMessages, setErrorMessages] = useState([])
     const navigate = useNavigate()
+    /**
+     * Функция обращения к swagger для регистрации
+     * @param {any} event
+     */
     const Register = async (event) => {
         event.preventDefault()
         var { email, password, passwordConfirm } = document.forms[0]

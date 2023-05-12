@@ -17,8 +17,20 @@ import {
 import Ingredient from '../Ingredient/Ingredient';
 const { Meta } = Card;
 const { Option } = Select;
+/**
+ * Компонент, отображающий страницу со списком блюд
+ * @param {User} user авторизованный пользователь
+ * @param {Dishes} dishes список DTO блюд
+ * @param {Dishes} setDishes метод изменения списка DTO блюд
+ * @param {Dish} removeDish метод удаления DTO блюда
+ * @param {Dish} updateDish метод изменения DTO блюда
+ * @returns Страница с меню ресторана, заполненная блюдами, с возможностью их редактирования и удаления (доступно только для админа)
+ */
 const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
     useEffect(() => {
+        /**
+         * Функция для обращения к swagger и получения списка DTO блюд из БД
+         * */
         const getDishes = async () => {
             const requestOptions = { method: 'GET' }
             return await fetch("api/Dish/", requestOptions)
@@ -35,11 +47,11 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
         }
         getDishes()
     }, [setDishes])
-
+    
     const [dishId, setDishId] = useState(-1);
     const [dishName, setDishName] = useState("");
     const [dishGrammers, setDishGrammers] = useState(-1);
-    const [categoryId, setCategoryId] = useState("");
+    const [categoryId, setCategoryId] = useState(-1);
     const [categoryName, setCategoryName] = useState("");
     const [dishCost, setDishCost] = useState(-1);
     const [dishImage, setDishImage] = useState("");
@@ -48,6 +60,15 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
     const [ingredientName, setIngredientName] = useState(-1);
 
     const [isModalDetailsOpen, setIsModalDetailsOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для просмотра подробной информации о блюде
+     * @param {dishId} id id блюда для получения списка ингредиентов этого блюда
+     * @param {dishName} name название блюда
+     * @param {dishGrammers} grammers граммовка блюда
+     * @param {dishCost} cost цена блюда
+     * @param {categoryName} ctgName название категории блюда
+     * @param {dishImage} image ссылка на изображение блюда
+     */
     const showDetailsModal = (id, name, grammers, cost, ctgName, image) => {
         var d;
         d = dishes.filter((item) => item.dishId === id);
@@ -63,22 +84,44 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
         setDishImage(image);
         setIsModalDetailsOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для просмотра информации о блюде
+     * */
     const handleDetailsCancel = () => {
         setIsModalDetailsOpen(false);
     };
 
+
     const [deleteId, setDeleteId] = useState(-1);
     const [isModalRemoveOpen, setIsModalRemoveOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для подтверждения удаления
+     * @param {dishId} val
+     */
     const showRemoveModal = (val) => {
         setDeleteId(val);
         setIsModalRemoveOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для подтверждения удаления
+     * */
     const handleRemoveCancel = () => {
         setDeleteId(-1);
         setIsModalRemoveOpen(false);
     };
 
+
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для изменения блюда 
+     * @param {dishId} id id блюда
+     * @param {dishName} name название блюда
+     * @param {dishGrammers} grammers граммовка блюда
+     * @param {dishCost} cost цена блюда
+     * @param {categoryId} ctgId id категории блюда
+     * @param {categoryName} ctgName название категории блюда
+     * @param {dishImage} image ссылка на изображение блюда
+     */
     const showUpdateModal = (id, name, grammers, cost, ctgId, ctgName, image) => {
         var d;
         d = dishes.filter((item) => item.dishId === id);
@@ -92,6 +135,9 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
         setDishImage(image);
         setIsModalUpdateOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для изменения блюда
+     * */
     const handleUpdateCancel = () => {
         setDishId(-1);
         setDishName("");
@@ -103,39 +149,65 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
         setIsModalUpdateOpen(false);
     }
 
+
     const [updateIngredientId, setUpdateIngredientId] = useState(-1);
     const [isModalIngredientUpdateOpen, setIsModalIngredientUpdateOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для изменения ингредиента блюда
+     * @param {ingredientId} ingId 
+     * @param {updateIngredientId} strId 
+     */
     const showIngredientUpdateModal = (ingId, strId) => {
         setUpdateIngredientId(strId);
         setIngredientId(ingId);
         setIsModalIngredientUpdateOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для изменения ингредиента блюда
+     * */
     const handleIngredientUpdateCancel = () => {
         setUpdateIngredientId(-1);
         setIsModalIngredientUpdateOpen(false);
     }
 
+
     const [deleteIngredientId, setDeleteIngredientId] = useState(-1);
     const [isModalIngredientRemoveOpen, setIsModalIngredientRemoveOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для подтверждения удаления
+     * @param {deleteIngredientId} val id удаляемого ингредиента блюда
+     */
     const showIngredientRemoveModal = (val) => {
         setDeleteIngredientId(val);
         setIsModalIngredientRemoveOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для подтверждения удаления
+     * */
     const handleIngredientRemoveCancel = () => {
         setDeleteIngredientId(-1);
         setIsModalIngredientRemoveOpen(false);
     };
 
+
     const [isModalIngredientCreateOpen, setIsModalIngredientCreateOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для добавления ингредиента в блюдо
+     * */
     const showIngredientCreateModal = () => {
         setIngredientId();
         setIsModalIngredientCreateOpen(true);
     };
+    /**
+     * Функция закрытие модульного окна для добавления ингредиента в блюдо
+     * */
     const handleIngredientCreateCancel = () => {
         setIsModalIngredientCreateOpen(false);
     }
 
-
+    /**
+     * Функция для обращения к swagger и изменения блюда в БД
+     * */
     const updateItem = async () => {
         setIsModalUpdateOpen(false);
         const dishDTO = {
@@ -172,6 +244,11 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
             }, (error) => console.log(error))
     }
 
+
+    /**
+     * Функция для обращения к swagger и удаления блюда из БД
+     * @param {dishId} dishId id удаляемого блюда 
+     */
     const deleteItem = async (dishId) => {
         setIsModalRemoveOpen(false);
         const requestOptions =
@@ -186,8 +263,14 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
             }, (error) => console.log(error))
     }
 
+
     // Обновление ингредиента в блюде
-    const updateIngredient = async (stringId, dishId, newIngId) => {
+    /**
+     * Функция изменения ингредиента
+     * @param {updateIngredientId} stringId id изменяемого ингредиента блюда
+     * @param {ingredientId} newIngId id нового ингредиента в строке ингредиента блюда
+     */
+    const updateIngredient = async (stringId, newIngId) => {
         setIsModalIngredientUpdateOpen(false);
         var ings = ingredients.filter((item) => item.ingredientId === ingredientId)
         var newIngName = ings[0].ingredientName;
@@ -211,13 +294,24 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
         setDishIngredients(d);
     }
 
+
     // Удаление ингредиента из блюда
+    /**
+     * Функция удаления ингредиента
+     * @param {number} strId id ингредиента блюда
+     */
     const deleteIngredient = async (strId) => {
         setIsModalIngredientRemoveOpen(false);
         setDishIngredients(dishIngredients.filter((item) => item.ingredientStringId !== strId));
     }
 
+
     // Добавление ингредиента в блюдо
+    /**
+     * Функция для обращения к swagger и создания нового ингредиента блюда в БД
+     * @param {ingredientId} ingId id ингредиента блюда
+     * @param {dishId} dishId id блюда
+     */
     const createStringIngredient = async (ingId, dishId) => {
         setIsModalIngredientCreateOpen(false);
         const requestOptions = {
@@ -244,7 +338,7 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
                                 setDishes(data)
                                 var d;
                                 d = data.filter((item) => item.dishId === dishId);
-                                setDishIngredients(d[0].ingredientStringsDTO);
+                                setDishIngredients([...dishIngredients, d[0].ingredientStringsDTO[d[0].ingredientStringsDTO.length - 1]]);
                             },
                             (error) => {
                                 console.log(error)
@@ -320,7 +414,8 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
     categories.map(({ categoryId, categoryName }) => {
         let dishesTabs = [];
         dishesTabs = dishes.filter((item) => item.categoryFk == categoryId);
-        tabItemsDish.push(
+        if (dishesTabs != 0) {
+            tabItemsDish.push(
             {
                 key: categoryId,
                 label: categoryName,
@@ -380,66 +475,16 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
                     />
                 </React.Fragment>
             })
+        }
+        
     })
 
 
     return (
         <React.Fragment>
             <h3>Меню ресторана</h3>
-            {/*<Button type="primary" className="button" hrmlType="submit" href="/dishCreate">+ Добавить блюдо</Button>*/}
-            <Tabs defaultActiveKey="0" items={tabItemsDish} />
-            {/*<List className="list"*/}
-            {/*    grid={{*/}
-            {/*        gutter: 20,*/}
-            {/*        xs: 1,*/}
-            {/*        sm: 2,*/}
-            {/*        md: 3,*/}
-            {/*        lg: 4,*/}
-            {/*        xl: 5,*/}
-            {/*        xxl: 7,*/}
-            {/*    }}*/}
-            {/*    dataSource={dishes}*/}
-            {/*    renderItem={(dish) => (*/}
-            {/*        <List.Item className="listItem">*/}
-            {/*            <Card*/}
-            {/*                key={dish.dishId}*/}
-            {/*                id={dish.dishId}*/}
-            {/*                className="card"*/}
-            {/*                hoverable*/}
-            {/*                cover={*/}
-            {/*                    <img*/}
-            {/*                        alt="Нет изображения"*/}
-            {/*                        src={dish.dishImage}*/}
-            {/*                    />*/}
-            {/*                }*/}
-            {/*                actions={user.userRole == "admin" ? (*/}
-            {/*                    [*/}
-            {/*                        <EllipsisOutlined onClick={() => showDetailsModal(*/}
-            {/*                            dish.dishId, dish.dishName, dish.dishGrammers, dish.dishCost, dish.categoryName, dish.dishImage */}
-            {/*                        )} className="icon_standart"/>,*/}
-            {/*                        <EditOutlined onClick={() => showUpdateModal(*/}
-            {/*                            dish.dishId, dish.dishName, dish.dishGrammers, dish.dishCost, dish.categoryFk, dish.categoryName, dish.dishImage*/}
-            {/*                        )}*/}
-            {/*                            className="icon_standart" key="edit" />,*/}
-            {/*                        <DeleteOutlined onClick={() => showRemoveModal(dish.dishId)} className="icon_standart" key="bin" />,*/}
-            {/*                    ]*/}
-            {/*                ) : (*/}
-            {/*                    [*/}
-            {/*                    <EllipsisOutlined onClick={() => showDetailsModal(*/}
-            {/*                        dish.dishId, dish.dishName, dish.dishGrammers, dish.dishCost, dish.categoryName, dish.dishImage*/}
-            {/*                        )} className="icon_standart"/>,*/}
-            {/*                    <ShoppingCartOutlined className="icon_standart" key="cart" />*/}
 
-            {/*                ]*/}
-            {/*                )}*/}
-            {/*            >*/}
-            {/*                <Meta title={dish.dishName} />*/}
-            {/*                <div style={{ fontSize:"20px" }}>{dish.dishCost} руб.</div>*/}
-            {/*                <div>{dish.categoryName}</div>*/}
-            {/*            </Card>*/}
-            {/*        </List.Item>*/}
-            {/*    )}*/}
-            {/*/>*/}
+            <Tabs defaultActiveKey="0" items={tabItemsDish} />
 
             <Modal title="Подробная информация о блюде"
                 onCancel={handleDetailsCancel}
@@ -630,10 +675,10 @@ const DishDTO = ({ user, dishes, setDishes, removeDish, updateDish }) => {
             <Modal
                 title="Редактирование ингредиента"
                 open={isModalIngredientUpdateOpen}
-                onOk={() => updateIngredient(updateIngredientId, dishId, ingredientId)}
+                onOk={() => updateIngredient(updateIngredientId, ingredientId)}
                 onCancel={handleIngredientUpdateCancel}
                 footer={[
-                    <Button type="primary" className="button" onClick={() => updateIngredient(updateIngredientId, dishId, ingredientId)}>
+                    <Button type="primary" className="button" onClick={() => updateIngredient(updateIngredientId, ingredientId)}>
                         Сохранить изменения
                     </Button>,
                     <Button type="primary" className="button" onClick={handleIngredientUpdateCancel}>

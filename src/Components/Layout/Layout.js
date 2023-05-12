@@ -10,29 +10,33 @@ const { Header, Content, Footer } = LayoutAntd;
 let dropdownList;
 let items;
 
-//const items = [
-//    {
-//        label: <Link to={"/"}>Главная</Link>,
-//        key: "1",
-//    },
-//    {
-//        label: <Link to={"/dishes"}>Меню</Link>,
-//        key: "2",
-//    },
-//];
-
+/**
+* Компонент, отображающий макет сайта
+ * @param {User} user пользователь
+ * @param {User} setUser метод изменения пользователя
+ */
 const Layout = ({ user, setUser }) => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для выхода из аккаунта
+     * */
     const showModal = () => {
         setIsModalOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для выхода из аккаунта
+     * */
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    /**
+     * Функция обращения к swagger, чтобы выйти из аккаунта
+     * @param {any} event 
+     */
     const logOff = async (event) => {
         setIsModalOpen(false);
         event.preventDefault()
@@ -164,17 +168,6 @@ const Layout = ({ user, setUser }) => {
                     padding: '0 50px',
                 }}
             >
-                {/*<Breadcrumb*/}
-                {/*    style={{*/}
-                {/*        margin: '16px 0',*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <Breadcrumb.Item>Главная</Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>Регистрация</Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>Блюда</Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>Вход</Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>Выход</Breadcrumb.Item>*/}
-                {/*</Breadcrumb>*/}
                 <div className="site-layout-content"
                     style={{ background: colorBgContainer }}>
                     <Outlet />
@@ -202,25 +195,3 @@ const Layout = ({ user, setUser }) => {
 };
 export default Layout;
 
-//const Layout = ({ user }) => {
-//    return (
-//        <>
-//            <div>
-//                {user.isAuthenticated ? (
-//                    <h4>Пользователь: {user.userName}</h4>
-//                ) : (
-//                    <h4>Пользователь: Гость</h4>
-//                )}
-//            </div>
-//            <nav>
-//                <Link to="/">Главная</Link> <span> </span>
-//                <Link to="/register">Регистрация</Link> <span> </span>
-//                <Link to="/dishes">Блюда</Link> <span> </span>
-//                <Link to="/login">Вход</Link> <span> </span>
-//                <Link to="/logoff">Выход</Link>
-//            </nav>
-//            <Outlet />
-//        </>
-//    )
-//}
-//export default Layout

@@ -6,11 +6,21 @@ import {
 } from 'antd';
 import { useEffect } from 'react';
 
+/**
+ * Компонент, отображающий страницу создания ингредиента
+ * @param {User} user авторизованный пользователь
+ * @param {Ingredient} addIngredient метод добавления нового ингредиента в список ингредиентов
+ * @returns Страница создания ингредиента
+ */
 const IngredientCreate = ({ user, addIngredient }) => {
     const [ingredientName, setIngredientName] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        /**
+         * Функция для обращения к swagger и создания нового ингредиента в БД
+         * @returns ответ в json формате или ошибка в случае неудачного выполнения запроса
+         */
         const createIngredient = async () => {
             const requestOptions = {
                 method: 'POST',

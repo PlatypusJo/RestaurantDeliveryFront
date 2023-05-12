@@ -8,8 +8,20 @@ import {
     Input,
 } from 'antd';
 
+/**
+ * Компонент, отображающий страницу со списком категорий блюд
+ * @param {User} user авторизованный пользователь
+ * @param {Categories} categoriesList список категорий
+ * @param {Categories} setCategories метод изменения списка категорий
+ * @param {Category} removeCategory метод удаления категории
+ * @param {Category} updateCategory метод изменения категории блюд
+ * @returns Страница категорий блюд, заполненная категориями, с возможностью их редактирования и удаления и доступная только для администратора
+ */
 const Category = ({ user, categoriesList, setCategories, removeCategory, updateCategory }) => {
     useEffect(() => {
+        /**
+         * Функция для обращения к swagger и получения списка категорий из БД
+         * */
         const getCategories = async () => {
             const requestOptions = {
                 method: 'GET'
@@ -31,38 +43,52 @@ const Category = ({ user, categoriesList, setCategories, removeCategory, updateC
     const [categoryId, setCategoryId] = useState(-1);
     const [categoryName, setCategoryName] = useState("");
 
-    const [isModalDetailsOpen, setIsModalDetailsOpen] = useState(false);
-    const showDetailsModal = (name) => {
-        setCategoryName(name);
-        setIsModalDetailsOpen(true);
-    };
-    const handleDetailsCancel = () => {
-        setIsModalDetailsOpen(false);
-    };
+
+
 
     const [deleteId, setDeleteId] = useState(-1);
     const [isModalRemoveOpen, setIsModalRemoveOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для подтверждения удаления
+     * @param {categoryId} val id удаляемой категории
+     */
     const showRemoveModal = (val) => {
         setDeleteId(val);
         setIsModalRemoveOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для подтверждения удаления
+     * */
     const handleRemoveCancel = () => {
         setDeleteId(-1);
         setIsModalRemoveOpen(false);
     };
 
+
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для изменения категории 
+     * @param {categoryId} id id изменяемой категории
+     * @param {categoryName} name название изменяемой категории
+     */
     const showUpdateModal = (id, name) => {
         setCategoryId(id);
         setCategoryName(name);
         setIsModalUpdateOpen(true);
     };
+    /**
+     * Функция закрытия модульного окна для изменения категории
+     * */
     const handleUpdateCancel = () => {
         setCategoryId(-1);
         setCategoryName("");
         setIsModalUpdateOpen(false);
     }
 
+
+    /**
+     * Функция для обращения к swagger и изменения категории в БД
+     * */
     const updateItem = async () => {
         setIsModalUpdateOpen(false);
         const requestOptions = {
@@ -86,6 +112,11 @@ const Category = ({ user, categoriesList, setCategories, removeCategory, updateC
             }, (error) => console.log(error))
     }
 
+
+    /**
+     * Функция для обращения к swagger и удаления категории из БД
+     * @param {categoryId} categoryId id удаляемой категории
+     */
     const deleteItem = async (categoryId) => {
         setIsModalRemoveOpen(false);
         const requestOptions =

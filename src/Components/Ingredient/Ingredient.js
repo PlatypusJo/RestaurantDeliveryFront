@@ -8,10 +8,22 @@ import {
     Input,
 } from 'antd';
 
+/**
+* Компонент, отображающий страницу со списком категорий блюд
+ * @param {User} user авторизованный пользователь
+ * @param {ingredients} ingredients список ингредиентов
+ * @param {ingredients} setIngredients метод изменения списка ингредиентов
+ * @param {ingredient} removeIngredient метод удаления ингредиента
+ * @param {ingredient} updateIngredient метод изменения ингредиента блюд
+ * @returns Страница ингредиентов, заполненная ингредиентами, с возможностью их редактирования и удаления и доступная только для администратора
+ */
 const Ingredient = ({ user, ingredients, setIngredients, removeIngredient, updateIngredient }) =>
 {
 
     useEffect(() => {
+        /**
+         * Функция для обращения к swagger и получения списка ингредиентов из БД
+         * */
         const getIngredients = async () => {
             const requestOptions = {
                 method: 'GET'
@@ -31,79 +43,92 @@ const Ingredient = ({ user, ingredients, setIngredients, removeIngredient, updat
         getIngredients()
     }, [setIngredients])
 
-const [ingredientId, setIngredientId] = useState(-1);
-const [ingredientName, setIngredientName] = useState("");
+    const [ingredientId, setIngredientId] = useState(-1);
+    const [ingredientName, setIngredientName] = useState("");
 
-const [isModalDetailsOpen, setIsModalDetailsOpen] = useState(false);
-const showDetailsModal = (name) => {
-    setIngredientName(name);
-    setIsModalDetailsOpen(true);
-};
-const handleDetailsCancel = () => {
-    setIsModalDetailsOpen(false);
-};
+    const [deleteId, setDeleteId] = useState(-1);
+    const [isModalRemoveOpen, setIsModalRemoveOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для подтверждения удаления
+     * @param {ingredientId} val id удаляемого ингредиента
+     */
+    const showRemoveModal = (val) => {
+        setDeleteId(val);
+        setIsModalRemoveOpen(true);
+    };
+    /**
+     * Функция закрытия модульного окна для подтверждения удаления
+     * */
+    const handleRemoveCancel = () => {
+        setDeleteId(-1);
+        setIsModalRemoveOpen(false);
+    };
 
-const [deleteId, setDeleteId] = useState(-1);
-const [isModalRemoveOpen, setIsModalRemoveOpen] = useState(false);
-const showRemoveModal = (val) => {
-    setDeleteId(val);
-    setIsModalRemoveOpen(true);
-};
-const handleRemoveCancel = () => {
-    setDeleteId(-1);
-    setIsModalRemoveOpen(false);
-};
-
-const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-const showUpdateModal = (id, name) => {
-    setIngredientId(id);
-    setIngredientName(name);
-    setIsModalUpdateOpen(true);
-};
-const handleUpdateCancel = () => {
-    setIngredientId(-1);
-    setIngredientName("");
-    setIsModalUpdateOpen(false);
-}
-
-const updateItem = async () => {
-    setIsModalUpdateOpen(false);
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            IngredientId: ingredientId,
-            IngredientName: ingredientName,
-        })
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    /**
+     * Функция открытия модульного окна для изменения ингредиента 
+     * @param {ingredientId} id id изменяемого ингредиента
+     * @param {ingredientName} name название изменяемого ингредиента
+     */
+    const showUpdateModal = (id, name) => {
+        setIngredientId(id);
+        setIngredientName(name);
+        setIsModalUpdateOpen(true);
+    };
+    /**
+     * Функция закрытия модульного окна для изменения ингредиента
+     * */
+    const handleUpdateCancel = () => {
+        setIngredientId(-1);
+        setIngredientName("");
+        setIsModalUpdateOpen(false);
     }
-    const response = await fetch(`api/Ingredient/${ingredientId}`, requestOptions);
 
-    return await response.json()
-        .then((data) => {
-            console.log(data);
-            if (response.ok) {
-                updateIngredient(data);
-            }
-            setIngredientId(-1);
-            setIngredientName("");
-        }, (error) => console.log(error))
-}
+    /**
+     * Функция для обращения к swagger и изменения ингредиента в БД
+     * */
+    const updateItem = async () => {
+        setIsModalUpdateOpen(false);
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                IngredientId: ingredientId,
+                IngredientName: ingredientName,
+            })
+        }
+        const response = await fetch(`api/Ingredient/${ingredientId}`, requestOptions);
 
-const deleteItem = async (ingredientId) => {
-    setIsModalRemoveOpen(false);
-    const requestOptions =
-    {
-        method: 'DELETE'
+        return await response.json()
+            .then((data) => {
+                console.log(data);
+                if (response.ok) {
+                    updateIngredient(data);
+                }
+                setIngredientId(-1);
+                setIngredientName("");
+            }, (error) => console.log(error))
     }
-    return await fetch(`api/Ingredient/${ingredientId}`, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                removeIngredient(ingredientId);
-            }
-        }, (error) => console.log(error))
-}
 
-return (
+    /**
+     * Функция для обращения к swagger и удаления ингредиента из БД
+     * @param {ingredientId} ingredientId id удаляемого ингредиента
+     */
+    const deleteItem = async (ingredientId) => {
+        setIsModalRemoveOpen(false);
+        const requestOptions =
+        {
+            method: 'DELETE'
+        }
+        return await fetch(`api/Ingredient/${ingredientId}`, requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    removeIngredient(ingredientId);
+                }
+            }, (error) => console.log(error))
+    }
+
+    return (
     <React.Fragment>
         {user.userRole == "admin" ? (
             <>
@@ -201,6 +226,5 @@ return (
             </>) : ("")
         }
     </React.Fragment>
-    )
-}
+)}
 export default Ingredient

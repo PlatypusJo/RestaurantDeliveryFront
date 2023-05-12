@@ -6,11 +6,21 @@ import {
 } from 'antd';
 import { useEffect } from 'react';
 
+/**
+ * Компонент, отображающий страницу создания категории
+ * @param {User} user авторизованный пользователь
+ * @param {Category} addCategory метод добавления новой категории в список категорий
+ * @returns Страница создания категории
+ */
 const CategoryCreate = ({ user, addCategory }) => {
     const [categoryName, setCategoryName] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        /**
+         * Функция для обращения к swagger и создания новой категории в БД
+         * @returns ответ в json формате или ошибка в случае неудачного выполнения запроса
+         */
         const createCategory = async () => {
             const requestOptions = {
                 method: 'POST',
